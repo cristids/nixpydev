@@ -40,11 +40,26 @@
               if [ ! -d ".venv" ]; then
                 echo "Creating virtual environment..."
                 ${pkgs.python312.interpreter} -m venv .venv --copies
+                source .venv/bin/activate
+                pip install --upgrade pip
+                pip install debugpy python-lsp-server[all] aider-chat flake8 openai rich requests
+                if [ -f requirements.txt ]; then
+                  pip install -r requirements.txt
+                fi
               fi
               source .venv/bin/activate
-              pip install debugpy python-lsp-server[all] aider-chat flake8 openai rich requests
-              if [ -f requirements.txt ]; then
-                pip install -r requirements.txt
+              
+              export ODBCINI=$XDG_CONFIG_HOME/odbc/odbc.ini
+              export ODBCSYSINI=$XDG_CONFIG_HOME/odbc
+        
+              if [ ! -d "$XDG_CONFIG_HOME/odbc" ]; then
+                mkdir -p $XDG_CONFIG_HOME/odbc
+                # driver config
+                echo "
+                  [ODBC Driver 18 for SQL Server]
+                  Description=Microsoft ODBC Driver 18 for SQL Server
+                  Driver=$(ls -1 ${pkgs.unixODBCDrivers.msodbcsql18}/lib/*.so*)
+                  " > $XDG_CONFIG_HOME/odbc/odbcinst.ini
               fi
             '';
           };
