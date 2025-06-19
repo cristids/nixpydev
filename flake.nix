@@ -13,10 +13,19 @@
             inherit system;
             config.allowUnfree = true;
           };
+
+          pythonEnv = pkgs.python312.withPackages (ps: with ps; [
+            debugpy
+            requests
+            rich
+            openai
+            # Add other packages here if needed
+          ]);
+
         in {
           default = pkgs.mkShell {
             packages = with pkgs; [
-              python312
+              pythonEnv
               git
               unixODBC
               unixODBCDrivers.msodbcsql18
