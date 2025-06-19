@@ -42,6 +42,7 @@
                     zlib zstd stdenv.cc.cc curl openssl attr libssh bzip2
                     libxml2 acl libsodium util-linux xz systemd
                     unixODBC unixODBCDrivers.msodbcsql18 libkrb5 libuuid
+                    libstdcxx
                   ]
                 )
               }:$LD_LIBRARY_PATH
