@@ -14,18 +14,19 @@
             config.allowUnfree = true;
           };
 
-          pythonEnv = pkgs.python312.withPackages (ps: with ps; [
-            debugpy
-            requests
-            rich
-            openai
-            # Add other packages here if needed
-          ]);
+          #pythonEnv = pkgs.python312.withPackages (ps: with ps; [
+          #  debugpy
+          #  requests
+          #  rich
+          #  openai
+          #  # Add other packages here if needed
+          #]);
 
         in {
           default = pkgs.mkShell {
             packages = with pkgs; [
-              pythonEnv
+              #pythonEnv
+              python312
               git
               unixODBC
               unixODBCDrivers.msodbcsql18
