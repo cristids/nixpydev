@@ -1,4 +1,4 @@
-{
+{ extraDeps ? [] }:{
   description = "Shared Python dev environment";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -15,7 +15,7 @@
           };
 
         in {
-          default = pkgs.mkShell {
+          default = { extraDeps ? [] }: pkgs.mkShell {
             packages = with pkgs; [
               python312
               git
@@ -24,7 +24,7 @@
               stdenv.cc.cc
               ruff
               pyright
-            ];
+            ] ++ extraDeps;
 
             shellHook = ''
               export LD_LIBRARY_PATH=${
@@ -44,9 +44,8 @@
                 ${pkgs.python312.interpreter} -m venv .venv --copies
                 source .venv/bin/activate
                 pip install --upgrade pip
-                pip install debugpy python-lsp-server[all] aider-chat flake8 openai rich requests
-                if [ -f requirements.txt ]; then
-                  pip install -r requirements.txt
+                if [ -f requirements-dev.txt ]; then
+                  pip install -r requirements-dev.txt
                 fi
               fi
               source .venv/bin/activate
