@@ -1,4 +1,4 @@
-{ extraDeps ? [] }:{
+{
   description = "Shared Python dev environment";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
