@@ -39,16 +39,6 @@
                 )
               }:$LD_LIBRARY_PATH
 
-              if [ ! -d ".venv" ]; then
-                echo "Creating virtual environment..."
-                ${pkgs.python312.interpreter} -m venv .venv --copies
-                source .venv/bin/activate
-                pip install --upgrade pip
-                if [ -f requirements-dev.txt ]; then
-                  pip install -r requirements-dev.txt
-                fi
-              fi
-              source .venv/bin/activate
             '';
           };
         }
